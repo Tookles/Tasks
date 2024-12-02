@@ -59,6 +59,13 @@ namespace Tasks
             return builtString;
         }
 
+        public static async Task<string> GetFileAndDecrypt(string fileName)
+        {
+           string result = await AsyncFileManager.ReadFile(fileName);
+           return DecryptMessage(result);  
+        }
+
+
 
         static async Task Main(string[] args)
         {
@@ -87,14 +94,14 @@ namespace Tasks
 
             //await Task.WhenAll(newList).ContinueWith(x => storyCounter);
 
-            string returnContents = await AsyncFileManager.ReadFile("resources/SuperSecretFile.txt");
-            Console.WriteLine(returnContents);
 
-             await AsyncFileManager.Writefile("resources/new.txt", "sasidjasdjip");
+            var combinedResults = await Task.WhenAll([
+                GetFileAndDecrypt("resources/SuperSecretFile.txt"), 
+                GetFileAndDecrypt("resources/ReallySuperSecretTextFile.txt"), 
+                GetFileAndDecrypt("resources/SuperTopSecretFile.txt")]);
 
-            string result = DecryptMessage(returnContents);
-            await AsyncFileManager.Writefile("resources/DecryptedMessage.txt", result);
-
+            await AsyncFileManager.Writefile("resources/DecryptedMessage.txt", String.Join(" ", combinedResults));
+            
 
         }
     }
