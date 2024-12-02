@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Timers; 
 
@@ -78,6 +79,7 @@ namespace Tasks
             string returnContents = await AsyncFileManager.ReadFile("resources/SuperSecretFile.txt");
             Console.WriteLine(returnContents);
 
+             await AsyncFileManager.Writefile("resources/new.txt", "sasidjasdjip");
         }
     }
 }

@@ -12,5 +12,10 @@ namespace Tasks
         {
             return await File.ReadAllTextAsync(filePath);
         }
+
+        public static async Task Writefile(string filepath, string text)
+        {
+            await File.WriteAllTextAsync(filepath, text);
+        }
     }
 }
