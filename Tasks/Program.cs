@@ -70,38 +70,42 @@ namespace Tasks
         static async Task Main(string[] args)
         {
 
-            //string story = "Mary had a little lamb, its fleece was white as snow.";
-            //string[] storyArray = story.Split(" ");
+            string story = "Mary had a little lamb, its fleece was white as snow.";
+            string[] storyArray = story.Split(" ");
 
-            //Task storyCounter = Task.Run(async () =>
-            //{
-            //    foreach (String word in storyArray)
-            //    {
-            //        await Task.Delay(1000);
-            //        Console.WriteLine(word);
-            //    }
-            //});
-
-
-            //string data = "85671 34262 92143 50984 24515 68356 77247 12348 56789 98760";
-            //List<BigInteger> numbers = data.Split(" ")
-            //                        .Select(x => (BigInteger.Parse(x))).ToList();
+            Task storyCounter = Task.Run(async () =>
+            {
+                foreach (String word in storyArray)
+                {
+                    await Task.Delay(1000);
+                    Console.WriteLine(word);
+                }
+            });
 
 
-            //List<Task<BigInteger>> tasks = numbers.Select(async x => await Task.Run(() => Excercises.CalculateFactorial(x))).ToList();
-
-            //var newList = tasks.Select(async x => await x.ContinueWith(x => Console.WriteLine(x.Result))).ToList();
-
-            //await Task.WhenAll(newList).ContinueWith(x => storyCounter);
+            string data = "85671 34262 92143 50984 24515 68356 77247 12348 56789 98760";
+            List<BigInteger> numbers = data.Split(" ")
+                                    .Select(x => (BigInteger.Parse(x))).ToList();
 
 
-            var combinedResults = await Task.WhenAll([
-                GetFileAndDecrypt("resources/SuperSecretFile.txt"), 
-                GetFileAndDecrypt("resources/ReallySuperSecretTextFile.txt"), 
-                GetFileAndDecrypt("resources/SuperTopSecretFile.txt")]);
+            List<Task<BigInteger>> tasks = numbers.Select(async x => await Task.Run(() => Excercises.CalculateFactorial(x))).ToList();
 
-            await AsyncFileManager.Writefile("resources/DecryptedMessage.txt", String.Join(" ", combinedResults));
-            
+            var newList = tasks.Select(async x => await x.ContinueWith(x => Console.WriteLine(x.Result))).ToList();
+
+            await Task.WhenAll(newList).ContinueWith(x => storyCounter);
+
+
+            //var combinedResults = await Task.WhenAll([
+            //    GetFileAndDecrypt("resources/SuperSecretFile.txt"), 
+            //    GetFileAndDecrypt("resources/ReallySuperSecretTextFile.txt"), 
+            //    GetFileAndDecrypt("resources/SuperTopSecretFile.txt")]);
+
+            //await AsyncFileManager.Writefile("resources/DecryptedMessage.txt", String.Join(" ", combinedResults));
+
+            //List<int> numbers = Enumerable.Range(1, 100).ToList();
+            //await ParallelOperations.RunParallelTasksAsync(numbers);
+
+            await AsyncRequest.GetPokemon();
 
         }
     }
