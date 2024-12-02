@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Timers; 
 
@@ -47,6 +48,16 @@ namespace Tasks
             Console.WriteLine("Application ending.");
         }
 
+        private static string DecryptMessage(string message)
+        {
+            string builtString = "";
+            foreach (char c in message)
+            {
+                char charShifted = (char)(c + 1);
+                builtString = builtString + charShifted;
+            }
+            return builtString;
+        }
 
 
         static async Task Main(string[] args)
@@ -80,6 +91,11 @@ namespace Tasks
             Console.WriteLine(returnContents);
 
              await AsyncFileManager.Writefile("resources/new.txt", "sasidjasdjip");
+
+            string result = DecryptMessage(returnContents);
+            await AsyncFileManager.Writefile("resources/DecryptedMessage.txt", result);
+
+
         }
     }
 }
