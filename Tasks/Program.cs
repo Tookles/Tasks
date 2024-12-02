@@ -92,7 +92,16 @@ namespace Tasks
 
             var newList = tasks.Select(async x => await x.ContinueWith(x => Console.WriteLine(x.Result))).ToList();
 
-            await Task.WhenAll(newList).ContinueWith(x => storyCounter);
+
+
+            // condensed together: 
+            List<Task> tasks2 = numbers.Select( x =>  (Task.Run(() => Excercises.CalculateFactorial(x)))
+                .ContinueWith(x => Console.WriteLine(x.Result)))
+                .ToList();
+
+
+            // run with the storycounter: 
+            await Task.WhenAll(tasks2).ContinueWith(x => storyCounter);
 
 
             //var combinedResults = await Task.WhenAll([
